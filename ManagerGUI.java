@@ -29,11 +29,12 @@ public class ManagerGUI extends JFrame {
         outputArea = new JTextArea();
         outputArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(outputArea);
+        outputArea.setPreferredSize(new Dimension(400,100));
 
-        viewAllBugsButton = new JButton("View All Bugs");
-        updateBugStatusButton = new JButton("Update Bug Status");
-        clearButton = new JButton("Clear");
-        checkPerformanceButton = new JButton("Check Performance");
+
+        updateBugStatusButton = createStyledButton("Update Bug", customFont, buttonColor, textColor);
+        clearButton = createStyledButton("Clear", customFont, buttonColor, textColor);
+        checkPerformanceButton = createStyledButton("Check Preformance", customFont, buttonColor, textColor);
 
         bugsPanel = new JPanel();
         bugsPanel.setLayout(new BoxLayout(bugsPanel, BoxLayout.Y_AXIS));
@@ -70,19 +71,7 @@ public class ManagerGUI extends JFrame {
         clearButton.addActionListener(e -> outputArea.setText(""));
     }
 
-    // Method to display all bugs with checkboxes
-    private void openBug() {
-        bugsPanel.removeAll();
-        Iterator<bugs> iterator = bugs.listBug.iterator();
-        while (iterator.hasNext()) {
-            bugs bug = iterator.next();
-            JCheckBox checkBox = new JCheckBox(bug.getBugName() + " - " + (bug.getStatus() ? "Open" : "Closed"));
-            checkBox.setSelected(bug.getStatus());
-            bugsPanel.add(checkBox);
-        }
-        bugsPanel.revalidate();
-        bugsPanel.repaint();
-    }
+ 
 
     // Method to update the bug status based on the checkbox state
     private void updateBugStatus() {
@@ -164,5 +153,14 @@ public class ManagerGUI extends JFrame {
         for (tester t : tester.getAllTesters()) {
             testerComboBox.addItem(t.getName());
         }
+    }
+    private JButton createStyledButton(String text, Font font, Color bgColor, Color fgColor) {
+        JButton button = new JButton(text);
+        button.setFont(font);
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }

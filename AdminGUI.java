@@ -14,6 +14,11 @@ public class AdminGUI extends JFrame {
     private JButton viewUsersButton;
     private JButton viewAllBugsButton;  // Add new button for viewing bugs
     private JTextArea textArea;
+    // Set custom font and colors
+    Font customFont = new Font("Arial", Font.BOLD, 14);
+    Color backgroundColor = new Color(230, 230, 250);
+    Color buttonColor = new Color(123, 104, 238);
+    Color textColor = Color.WHITE;
 
     public AdminGUI() {
         setTitle("Admin Panel");
@@ -34,10 +39,10 @@ public class AdminGUI extends JFrame {
         panel.setLayout(new GridLayout(5, 1));  // Added one extra row for the new button
 
         // Buttons for admin tasks
-        addUserButton = new JButton("Add User");
-        deleteUserButton = new JButton("Delete User");
-        updateUserButton = new JButton("Update User");
-        viewUsersButton = new JButton("View Users");
+        addUserButton = createStyledButton("ADD User", customFont, buttonColor, backgroundColor);
+        deleteUserButton = createStyledButton("Delete User", customFont, buttonColor, backgroundColor);
+        updateUserButton = createStyledButton("Update User", customFont, buttonColor, backgroundColor);
+        viewUsersButton = createStyledButton("View User", customFont, buttonColor, backgroundColor);
         viewAllBugsButton = new JButton("View All Bugs");  // New button
 
         panel.add(addUserButton);
@@ -82,13 +87,62 @@ public class AdminGUI extends JFrame {
 
     // Method to add a user
     private void addUser() {
-        String name = JOptionPane.showInputDialog(this, "Enter User Name:");
-        String password = JOptionPane.showInputDialog(this, "Enter Password:");
-        String role = JOptionPane.showInputDialog(this, "Enter Role (e.g., TESTER, DEVELOPER, ADMIN):");
-        int ID = Integer.parseInt(JOptionPane.showInputDialog(this, "Enter ID:"));
-        
-        users.addUser(name, ID, password, role); // Call the addUser method from users class
-        JOptionPane.showMessageDialog(this, "User Added Successfully.");
+       // Create the frame
+       JFrame frame = new JFrame("User Input Form");
+       frame.setSize(400, 300);
+       frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+       frame.setLocationRelativeTo(null); // Center the frame
+
+       // Create a panel for input fields
+       JPanel panel = new JPanel();
+       panel.setLayout(new GridLayout(5, 2, 10, 10)); // Grid layout for form fields
+
+       // Create input fields
+       JLabel nameLabel = new JLabel("Enter User Name:");
+       JTextField nameField = new JTextField();
+
+       JLabel passwordLabel = new JLabel("Enter Password:");
+       JPasswordField passwordField = new JPasswordField();
+
+       JLabel roleLabel = new JLabel("Enter Role (e.g., TESTER, DEVELOPER, ADMIN):");
+       JTextField roleField = new JTextField();
+
+       JLabel idLabel = new JLabel("Enter ID:");
+       JTextField idField = new JTextField();
+
+       // Create a submit button
+       JButton submitButton = createStyledButton("Submite", customFont,backgroundColor, buttonColor);
+
+       // Add components to the panel
+       panel.add(nameLabel);
+       panel.add(nameField);
+       panel.add(passwordLabel);
+       panel.add(passwordField);
+       panel.add(roleLabel);
+       panel.add(roleField);
+       panel.add(idLabel);
+       panel.add(idField);
+       panel.add(new JLabel()); // Empty label for spacing
+       panel.add(submitButton);
+
+       // Add the panel to the frame
+       frame.add(panel);
+
+       // Action listener for the submit button
+       submitButton.addActionListener(e -> {
+           // Get the user input
+           String name = nameField.getText();
+           String password = new String(passwordField.getPassword());
+           String role = roleField.getText();
+           int ID = Integer.parseInt(idField.getText());
+
+           // Output user input (for demonstration)
+           JOptionPane.showMessageDialog(frame, "Name: " + name + "\nPassword: " + password + "\nRole: " + role + "\nID: " + ID);
+           users.addUser(name, ID, password, role); // Call the addUser method from users class
+       });
+
+       // Set the frame visible
+       frame.setVisible(true);
     }
 
     // Method to delete a user
@@ -152,5 +206,14 @@ public class AdminGUI extends JFrame {
 
         // Display all bugs in the output area
         textArea.setText(bugList.toString());
+    }
+    private JButton createStyledButton(String text, Font font, Color bgColor, Color fgColor) {
+        JButton button = new JButton(text);
+        button.setFont(font);
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }
