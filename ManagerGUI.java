@@ -15,6 +15,12 @@ public class ManagerGUI extends JFrame {
     public ManagerGUI(manager manager) {
         this.manager = manager;
 
+        // Set custom font and colors
+        Font customFont = new Font("Arial", Font.BOLD, 14);
+        Color backgroundColor = new Color(230, 230, 250);
+        Color buttonColor = new Color(123, 104, 238);
+        Color textColor = Color.WHITE;
+
         // Manually adding developers and testers for testing
         new Developer(201, "Developer 1", "junior@example.com");
         new Developer(202, "Developer 2", "senior@example.com");

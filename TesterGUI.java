@@ -19,11 +19,7 @@ public class TesterGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Set custom font and colors
-        Font customFont = new Font("Arial", Font.BOLD, 14);
-        Color backgroundColor = new Color(230, 230, 250);
-        Color buttonColor = new Color(123, 104, 238);
-        Color textColor = Color.WHITE;
+        
 
         // Create output area
         outputArea = new JTextArea();
@@ -73,15 +69,7 @@ public class TesterGUI extends JFrame {
         
     }
 
-    private JButton createStyledButton(String text, Font font, Color bgColor, Color fgColor) {
-        JButton button = new JButton(text);
-        button.setFont(font);
-        button.setBackground(bgColor);
-        button.setForeground(fgColor);
-        button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        return button;
-    }
+    
 
     private void viewBugs() {
         if (bugs.listBug.isEmpty()) {

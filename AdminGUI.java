@@ -106,6 +106,7 @@ public class AdminGUI extends JFrame {
 
        JLabel roleLabel = new JLabel("Enter Role (e.g., TESTER, DEVELOPER, ADMIN):");
        JTextField roleField = new JTextField();
+       
 
        JLabel idLabel = new JLabel("Enter ID:");
        JTextField idField = new JTextField();
@@ -134,11 +135,18 @@ public class AdminGUI extends JFrame {
            String name = nameField.getText();
            String password = new String(passwordField.getPassword());
            String role = roleField.getText();
+           role = role.toUpperCase();
            int ID = Integer.parseInt(idField.getText());
 
            // Output user input (for demonstration)
-           JOptionPane.showMessageDialog(frame, "Name: " + name + "\nPassword: " + password + "\nRole: " + role + "\nID: " + ID);
-           users.addUser(name, ID, password, role); // Call the addUser method from users class
+           // Output user input (for demonstration)
+           if(role == "ADMIN"||role == "DEVELOPER"||role == "TESTER"||role == "PROJECT MANAGER"){
+            JOptionPane.showMessageDialog(frame, "Name: " + name + "\nPassword: " + password + "\nRole: " + role + "\nID: " + ID);
+            users.addUser(name, ID, password, role); // Call the addUser method from users class
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Invalid Role.");
+        }
        });
 
        // Set the frame visible
@@ -150,8 +158,10 @@ public class AdminGUI extends JFrame {
         int ID = Integer.parseInt(JOptionPane.showInputDialog(this, "Enter User ID to Delete:"));
         person user = users.getUserByID(ID); // Get the user by ID
         if (user != null) {
-            users.humanList.remove(user); // Remove the user from the list
+            if(users.deleteUser(ID)) // Remove the user from the list
             JOptionPane.showMessageDialog(this, "User Deleted Successfully.");
+            else
+                JOptionPane.showMessageDialog(this, "Unsuspected error.");
         } else {
             JOptionPane.showMessageDialog(this, "User ID not found.");
         }
@@ -169,6 +179,7 @@ public class AdminGUI extends JFrame {
             user.setName(newName);
             user.setPassword(newPassword);
             user.setRole(newRole);
+            users.updateUserInFile(ID, newName, newPassword, newRole);
             JOptionPane.showMessageDialog(this, "User Updated Successfully.");
         } else {
             JOptionPane.showMessageDialog(this, "User ID not found.");
